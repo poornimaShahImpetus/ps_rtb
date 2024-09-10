@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: customers
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - chk_not_null
+
+  - name: orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - chk_not_null
+      - name: customer_id
+        description: "Unique identifier for the customer associated with the order."
+        tests:
+          - chk_not_null
+          - relationships:
+              to: ref('customers')
+              field: customer_id
+
+      - name: status
+        tests:
+          - chk_not_null
+          - accepted_values:
+              values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
+
+      - name: total_amount
+        tests:
+          - chk_not_null
+
+      - name: credit_card_amount
+        tests:
+          - chk_not_null
+
+      - name: coupon_amount
+        tests:
+          - chk_not_null
+
+      - name: bank_transfer_amount
+        tests:
+          - chk_not_null
+
+      - name: gift_card_amount
+        tests:
+          - chk_not_null
